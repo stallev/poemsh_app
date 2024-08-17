@@ -1,4 +1,4 @@
-import React from 'react';
+'use client'
 import { MainNav } from '@/components/MainNav/MainNav';
 import { Container } from '@/containers/Container/Container';
 import { Logo } from '@/components/CustomSharedUI/Logo/Logo';
