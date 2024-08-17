@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Logo } from '../CustomSharedUI/Logo/Logo'
@@ -16,8 +16,15 @@ export const MobileMainNav = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-80 space-y-4 p-4">
+          <SheetHeader>
+            <SheetTitle>Menu</SheetTitle>
+          </SheetHeader>
+          <SheetDescription>
+            Use the menu below to navigate through the site sections.
+          </SheetDescription>
+
           <div className="flex items-center space-x-2">
-            <Logo/>
+            <Logo />
           </div>
           <nav className="space-y-2">
             <Link
