@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
@@ -6,6 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
 
 export const MobileMainNav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleCollapsible = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className="relative">
       <Sheet>
@@ -31,10 +37,10 @@ export const MobileMainNav = () => {
             >
               <span>About</span>
             </Link>
-            <Collapsible>
+            <Collapsible open={isOpen} onOpenChange={toggleCollapsible}>
               <CollapsibleTrigger className="flex items-center justify-between font-medium">
                 Products
-                <IoIosArrowForward className="h-4 w-4" />
+                {isOpen ? <IoIosArrowDown className="h-4 w-4" /> : <IoIosArrowForward className="h-4 w-4" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="flex flex-col pl-4 space-y-2">
                 <Link href="#" prefetch={false}>
