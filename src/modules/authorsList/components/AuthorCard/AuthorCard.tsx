@@ -24,7 +24,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
           priority={priorityImageLoading}
         />
       </div>
-      <Link href={slug} tabIndex={0} aria-label='To author page'>{authorName}</Link>
+      <Link href={`/authors/${slug}`} tabIndex={0} aria-label='To author page'>{authorName}</Link>
     </div>
   )
 }

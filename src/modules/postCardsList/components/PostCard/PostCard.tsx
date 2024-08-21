@@ -24,7 +24,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       <p>{description}</p>
       <p>Автор: {author}</p>
       <span>{createdAt.toDateString()}</span>
-      <Link href={`/posts/${slug}`} tabIndex={0} aria-label='To author page'>{author}</Link>
+      <Link href={`/posts/${slug}`} tabIndex={0} aria-label='To post page' className='font-bold text-xl'>{title}</Link>
     </div>
   )
 }
