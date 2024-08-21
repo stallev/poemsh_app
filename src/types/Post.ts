@@ -15,6 +15,8 @@ export interface PostType {
   updatedAt: Date
   status: string
   slug?: string
+  content: string
+  comments: Comment[]
 };
 
 export interface Comment {
