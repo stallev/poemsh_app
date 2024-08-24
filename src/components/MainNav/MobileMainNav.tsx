@@ -1,13 +1,40 @@
 'use client'
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { ChevronRight, Plus, X } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
+import { MainNavBarLinks } from "@/constants/NavBarLinks"
 
 export const MobileMainNav = () => {
+  const navContent = Object.values(MainNavBarLinks).map(({ link, label, children }, index) => {
+    return !!link ? (
+      <Link
+        key={index}
+        href={link}
+        className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
+        prefetch={false}
+      >
+        <span>{label}</span>
+      </Link>
+    ) : (
+      <Collapsible key={index}>
+        <CollapsibleTrigger className="flex items-center justify-between font-medium">
+          {label}
+          <ChevronRight className="h-4 w-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="flex flex-col pl-4 space-y-2">
+          {Object.values(children).map((item, index) => (
+            <Link key={index} href={item.link} prefetch={false}>
+              {item.label}
+            </Link>
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+    )
+  });
   return (
     <div className="relative">
       <Sheet>
@@ -26,44 +53,7 @@ export const MobileMainNav = () => {
           </SheetDescription>
 
           <nav className="space-y-2">
-            <Link
-              href="#"
-              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
-              prefetch={false}
-            >
-              <span>About</span>
-            </Link>
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between font-medium">
-                Products
-                <ChevronRight className="h-4 w-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="flex flex-col pl-4 space-y-2">
-                <Link href="#" prefetch={false}>
-                  Category A
-                </Link>
-                <Link href="#" prefetch={false}>
-                  Category B
-                </Link>
-                <Link href="#" prefetch={false}>
-                  Category C
-                </Link>
-              </CollapsibleContent>
-            </Collapsible>
-            <Link
-              href="#"
-              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
-              prefetch={false}
-            >
-              <span>Pricing</span>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
-              prefetch={false}
-            >
-              <span>Contact</span>
-            </Link>
+            {navContent}
           </nav>
         </SheetContent>
       </Sheet>

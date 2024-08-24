@@ -8,7 +8,7 @@ export const PostCardsList: React.FC<PostListType> = ({ data }) => {
     <div className='flex flex-col gap-6'>
       <h2 className='text-center font-bold text-3xl'>Посты</h2>
 
-      <div className='flex justify-center gap-3 flex-wrap'>
+      <div className='flex justify-center gap-5 flex-wrap'>
         {data.map((post) =>
           <PostCard
             key={post.id}

@@ -28,9 +28,11 @@ export default function RootLayout({
       )}>
         <Header />
         
-        <Container>
-          {children}
-        </Container>
+        <main>
+          <Container>
+            {children}
+          </Container>
+        </main>
       </body>
     </html>
   );
