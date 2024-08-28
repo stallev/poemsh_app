@@ -1,33 +1,33 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select"
+// import Link from 'next/link'
+// import { usePathname } from 'next/navigation'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-import { i18n } from '@/i18n.config'
+// import { i18n } from '@/i18n.config'
 
 export default function LocaleSwitcher() {
-  const pathName = usePathname()
-  const currentLocale = pathName.split('/')[1]
+  // const pathName = usePathname()
+  // const currentLocale = pathName.split('/')[1]
 
-  const redirectedPathName = (locale: string) => {
-    if (!pathName) return '/'
-    const segments = pathName.split('/')
-    segments[1] = locale
-    return segments.join('/')
-  }
+  // const redirectedPathName = (locale: string) => {
+  //   if (!pathName) return '/'
+  //   const segments = pathName.split('/')
+  //   segments[1] = locale
+  //   return segments.join('/')
+  // }
 
   return (
     <>
-    {/* <Select>
+    <Select>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
@@ -41,8 +41,8 @@ export default function LocaleSwitcher() {
           <SelectItem value="pineapple">Pineapple</SelectItem>
         </SelectGroup>
       </SelectContent>
-    </Select> */}
-      <ul className='flex gap-x-3'>
+    </Select>
+      {/* <ul className='flex gap-x-3'>
         {i18n.locales.map(locale => {
           return (
             <li key={locale}>
@@ -55,7 +55,7 @@ export default function LocaleSwitcher() {
             </li>
           )
         })}
-      </ul>
+      </ul> */}
     </>
   )
 }
