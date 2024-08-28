@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { RoutePath } from '@/constants/RoutePath';
+import { slugSelector } from '@/lib/slugSelector';
 import { PostCardProps } from './types';
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -9,6 +10,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   description,
   imageUrl = '',
   author,
+  lang,
   createdAt,
   slug,
 }) => {
@@ -24,7 +26,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       </div>
       
       <Link
-        href={`/posts/${slug}`}
+        href={slugSelector(lang, `/posts/${slug}`)}
         tabIndex={0}
         aria-label='To post page'
         className='font-bold text-xl underline'>
@@ -36,7 +38,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         <p>Автор:</p>
         &nbsp;
         <Link
-          href={`${RoutePath.Authors}/${author}`}
+          href={slugSelector(lang, `${RoutePath.Authors}/${author}`)}
           className='underline'
         >
           {author}

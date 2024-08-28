@@ -4,4 +4,5 @@ export interface AuthorCardProps {
   slug: string
   imageUrl?: string
   index: number
+  lang: string
 }

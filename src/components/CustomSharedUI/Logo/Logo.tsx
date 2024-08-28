@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
+import { slugSelector } from '@/lib/slugSelector'
+import { RoutePath } from '@/constants/RoutePath'
 
-export const Logo = () => {
+export const Logo = ({ lang }: { lang: string }) => {
   return (
-    <Link href="#" className="flex items-center space-x-2" prefetch={false}>
+    <Link href={slugSelector(lang, RoutePath.Home)} className="flex items-center space-x-2" prefetch={false}>
       <MountainIcon className="h-6 w-6" />
       <span className="font-bold">Acme Inc</span>
     </Link>

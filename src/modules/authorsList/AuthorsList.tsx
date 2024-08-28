@@ -2,7 +2,8 @@ import React from 'react'
 import { AuthorCard } from './components/AuthorCard/AuthorCard';
 import { authors } from '@/constants/mocks/authors';
 
-export const AuthorsList = () => {
+export const AuthorsList = ({ lang }: { lang: string }) => {
+  console.log(lang)
   return (
     <div className='flex flex-col gap-6'>
       <h2 className='text-center font-bold text-3xl'>Авторы</h2>
@@ -16,6 +17,7 @@ export const AuthorsList = () => {
             lastName={author.lastName}
             slug={author.id}
             imageUrl={author.imageUrl}
+            lang={lang}
           />
         )}
       </div>

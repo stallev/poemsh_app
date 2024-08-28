@@ -5,4 +5,5 @@ export interface PostCardProps {
   author: string
   createdAt: Date
   slug?: string
+  lang: string
 }
