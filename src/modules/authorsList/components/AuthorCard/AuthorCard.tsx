@@ -11,7 +11,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
   index
 }) => {
   const authorName = `${firstName} ${lastName}`;
-  const priorityImageLoading = index < 6 ? true : false;
+  const priorityImageLoading = index < 2 ? true : false;
 
   return (
     <div className='flex flex-col w-44 lg:w-60 items-center gap-4 px-2 py-3 border-2 rounded'>
