@@ -9,7 +9,7 @@ export const Header = ({ lang }: {lang: Locale}) => {
   return (
     <Container>
       <div className='flex h-16 items-center justify-between px-4 md:px-6'>
-        <Logo/>
+        <Logo lang={lang}/>
         <MainNav lang={lang} />
         <MobileMainNav lang={lang} />
         <LocaleSwitcher />

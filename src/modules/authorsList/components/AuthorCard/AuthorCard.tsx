@@ -2,12 +2,14 @@ import React from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { AuthorCardProps } from './types'
+import { slugSelector } from '@/lib/slugSelector';
 
 export const AuthorCard: React.FC<AuthorCardProps> = ({
   firstName,
   lastName,
   slug,
   imageUrl = '',
+  lang,
   index
 }) => {
   const authorName = `${firstName} ${lastName}`;
@@ -26,7 +28,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
       </div>
       
       <Link
-        href={`/authors/${slug}`}
+        href={slugSelector(lang, `/authors/${slug}`)}
         tabIndex={0}
         aria-label='To author page'
         className='font-bold'

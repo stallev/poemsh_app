@@ -1,5 +1,6 @@
 export interface PostListType {
   data: PostType[]
+  lang: string
 }
 
 export interface PostType {
@@ -42,4 +43,5 @@ export interface Author {
   status: string
   description: string
   imageUrl?: string
+  lang?: string
 }

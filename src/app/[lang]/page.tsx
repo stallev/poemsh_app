@@ -14,9 +14,9 @@ export default async function Home({
     <>
       <h1 className="font-bold text-5xl mb-9">{home.title}</h1>
 
-      <AuthorsList />
+      <AuthorsList lang={lang} />
 
-      <PostCardsList data={PostsListData} />
+      <PostCardsList data={PostsListData} lang={lang} />
     </>
   );
 }

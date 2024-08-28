@@ -3,7 +3,7 @@ import { PostCard } from './components/PostCard/PostCard';
 import { PostListType } from '@/types/Post';
 
 
-export const PostCardsList: React.FC<PostListType> = ({ data }) => {
+export const PostCardsList: React.FC<PostListType> = ({ data, lang }) => {
   return (
     <div className='flex flex-col gap-6'>
       <h2 className='text-center font-bold text-3xl'>Посты</h2>
@@ -18,6 +18,7 @@ export const PostCardsList: React.FC<PostListType> = ({ data }) => {
             author={post.author}
             createdAt={post.createdAt}
             slug={post.slug}
+            lang={lang}
           />
         )}
       </div>
