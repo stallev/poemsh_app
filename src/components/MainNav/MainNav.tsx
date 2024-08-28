@@ -11,15 +11,15 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-
 import { ListItem } from "../CustomSharedUI/ListItem/ListItem";
 import { MainNavBarLinks } from "@/constants/NavBarLinks"
+import { slugSelector } from "@/lib/slugSelector";
 
-export const MainNav = () => {
+export const MainNav = ({ lang }: { lang: string}) => {
   const navContent = Object.values(MainNavBarLinks).map(({ link, label, children }, index) => {
     return !!link ? (
       <NavigationMenuItem key={index}>
-        <Link href={link} legacyBehavior passHref>
+        <Link href={slugSelector(lang, link)} legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             {label}
           </NavigationMenuLink>
@@ -35,6 +35,7 @@ export const MainNav = () => {
                 key={index}
                 title={item.label}
                 href={item.link}
+                lang={lang}
               >
                 {item.label}
               </ListItem>

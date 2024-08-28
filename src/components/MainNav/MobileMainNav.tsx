@@ -7,13 +7,14 @@ import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescri
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
 import { MainNavBarLinks } from "@/constants/NavBarLinks"
+import { slugSelector } from '@/lib/slugSelector'
 
-export const MobileMainNav = () => {
+export const MobileMainNav = ({ lang }: { lang: string }) => {
   const navContent = Object.values(MainNavBarLinks).map(({ link, label, children }, index) => {
     return !!link ? (
       <Link
         key={index}
-        href={link}
+        href={slugSelector(lang, link)}
         className="flex items-center space-x-2 text-muted-foreground hover:text-foreground"
         prefetch={false}
       >
@@ -27,7 +28,7 @@ export const MobileMainNav = () => {
         </CollapsibleTrigger>
         <CollapsibleContent className="flex flex-col pl-4 space-y-2">
           {Object.values(children).map((item, index) => (
-            <Link key={index} href={item.link} prefetch={false}>
+            <Link key={index} href={slugSelector(lang, item.link)} prefetch={false}>
               {item.label}
             </Link>
           ))}
