@@ -2,6 +2,7 @@ import { MainNav } from '@/components/MainNav/MainNav';
 import { Container } from '@/containers/Container/Container';
 import { Logo } from '@/components/CustomSharedUI/Logo/Logo';
 import { MobileMainNav } from '@/components/MainNav/MobileMainNav';
+import LocaleSwitcher from '@/components/LocaleSwitcher/LocaleSwitcher';
 
 export const Header = () => {
   return (
@@ -10,6 +11,7 @@ export const Header = () => {
         <Logo/>
         <MainNav />
         <MobileMainNav />
+        <LocaleSwitcher />
       </div>
     </Container>
   )
