@@ -15,7 +15,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   slug,
 }) => {
   return (
-    <div className='flex flex-col w-60 lg:w-72 items-center gap-4 px-4 py-4 border-2 rounded shadow-lg'>
+    <div className='flex flex-col items-center gap-4 px-4 py-4 border-2 rounded shadow-lg'>
       <div className='relative w-full h-44 rounded overflow-hidden'>
         <Image
           src={imageUrl}

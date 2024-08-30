@@ -16,7 +16,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
   const priorityImageLoading = index < 6 ? true : false;
 
   return (
-    <div className='flex flex-col w-44 lg:w-60 items-center gap-4 px-2 py-3 border-2 rounded'>
+    <div className='flex flex-col items-center gap-4 px-4 py-4 border-2 rounded shadow-lg'>
       <div className='relative w-full h-44 rounded overflow-hidden'>
         <Image
           src={imageUrl}
