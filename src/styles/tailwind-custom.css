@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @media (min-width: 1536px) {
+  .container {
+    max-width: 80rem !important;
+  }
+} */
+
+.custom-lg-cards-grid {
+  @apply grid justify-center grid-cols-[minmax(100px,300px)] gap-y-6 auto-rows-[minmax(100px,auto)]
+  sm:grid-cols-[repeat(2,minmax(100px,300px))] gap-x-6
+  md:grid-cols-2 md:justify-start md:gap-x-8 md:gap-y-8
+  xl:grid-cols-3;
+}
+
+.custom-small-cards-grid {
+  @apply grid justify-center grid-cols-[minmax(100px,300px)] gap-y-6 auto-rows-[minmax(100px,auto)]
+  sm:grid-cols-[repeat(2,minmax(100px,250px))] gap-x-6
+  md:grid-cols-3 md:justify-start md:gap-x-8 md:gap-y-8
+  lg:grid-cols-4;
+}

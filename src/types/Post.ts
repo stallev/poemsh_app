@@ -34,14 +34,13 @@ export interface PostCategory {
   name: string
 }
 
-export interface Author {
+export interface AuthorType {
   id: string
   firstName: string
   lastName: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   status: string
   description: string
   imageUrl?: string
-  lang?: string
 }

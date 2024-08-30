@@ -1,4 +1,4 @@
-export const authors = [
+export const AuthorsData = [
   {
       "id": "auth1",
       "firstName": "Алексей",

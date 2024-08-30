@@ -1,8 +1,8 @@
-import { authors } from "@/constants/mocks/authors";
+import { AuthorsData } from "@/constants/mocks/authors";
 
 class AuthorsApiService {
   static getSingleAuthor(id: string) {
-    return authors.find(item => item.id == id)
+    return AuthorsData.find(item => item.id == id)
   }
 };
 

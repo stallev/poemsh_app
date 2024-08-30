@@ -1,4 +1,4 @@
-import { PostCardsList } from "@/modules/postCardsList/PostCardsList";
+import { PostCardsList } from "@/components/CustomSharedUI/PostCardsList/PostCardsList";
 import { PostsListData } from "@/constants/mocks/Posts";
 import { Locale } from "@/i18n.config";
 
