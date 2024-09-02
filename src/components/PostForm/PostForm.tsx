@@ -17,7 +17,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { modules, formats } from '@/constants/RichTextEditorSettings';
+import { PostFormDefaultValues } from './constants/FormValues';
+import { Locale } from '@/i18n.config';
 import 'react-quill/dist/quill.snow.css';
+
 import { PostType } from '@/types/Post';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -29,16 +32,17 @@ const formSchema = z.object({
 });
 
 interface PostFormProps {
-  data: PostType
+  data: PostType | null
+  lang: Locale
 }
 
-export const PostForm = ({ data }: PostFormProps) => {
+export const PostForm = ({ data, lang }: PostFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: data.title,
-      description: data.description || "",
-      imageUrl: data.imageUrl || "",
+      title: data ? data.title : PostFormDefaultValues.title,
+      description: data ? data.description : PostFormDefaultValues.description,
+      imageUrl: data ? data.imageUrl : PostFormDefaultValues.image_url,
     },
   });
 
