@@ -7,7 +7,7 @@ export interface PostType {
   id: string
   title: string
   meta_title?: string
-  description?: string
+  description: string
   imageUrl?: string
   categories?: string[]
   author: string

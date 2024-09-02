@@ -2,7 +2,9 @@ import { PostsListData } from "@/constants/mocks/Posts";
 
 class PostApiService {
   static getSinglePost(slug: string) {
-    return PostsListData.find(item => item.slug == slug)
+    const postData = PostsListData.find(item => item.slug == slug);
+    
+    return postData?.title ? postData : PostsListData[0];
   }
 };
 
