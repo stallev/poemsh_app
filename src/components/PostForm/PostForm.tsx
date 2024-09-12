@@ -2,7 +2,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from "@/components/ui/button";
@@ -15,9 +15,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { modules, formats } from '@/constants/RichTextEditorSettings';
 import { PostFormDefaultValues } from './constants/FormValues';
+import { Locale } from '@/i18n.config';
 import { MultiSelect } from '../CustomSharedUI/MultiSelect/MultiSelect';
 import 'react-quill/dist/quill.snow.css';
 
@@ -28,18 +36,23 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 const formSchema = z.object({
   title: z.string().min(1, { message: "Заголовок обязателен" }).max(100, { message: "Заголовок не должен превышать 100 символов" }),
   categories: z.array(z.string()).nonempty({ message: "Должна быть выбрана хотя бы одна категория" }),
+  languageCode: z.string().max(2, { message: "Выберите язык контента" }),
   description: z.string().max(10000, { message: "Описание не должно превышать 10000 символов" }).optional(),
   imageUrl: z.string().url({ message: "Введите корректный URL изображения" }).optional(),
 });
 interface PostFormProps {
   data: PostType | null
+  lang: Locale
   translations: {
-    categories: Record<string, string>
+    post_form: {
+      categories: Record<string, string>
+    }
+    languages: Record<Locale, string>
   }
-}  
+}
 
-export const PostForm = ({ data, translations }: PostFormProps) => {
-  const categoryOptions = Object.entries(translations.categories).map(([key, value]) => ({
+export const PostForm = ({ data, lang, translations }: PostFormProps) => {
+  const categoryOptions = Object.entries(translations.post_form.categories).map(([key, value]) => ({
     label: value as string,
     value: key
   }));
@@ -47,10 +60,11 @@ export const PostForm = ({ data, translations }: PostFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: data ? data.title : PostFormDefaultValues.title,
-      categories: data ? data.categories : [],
-      description: data ? data.description : PostFormDefaultValues.description,
-      imageUrl: data ? data.imageUrl : PostFormDefaultValues.image_url,
+      title: data ? data?.title : PostFormDefaultValues.title,
+      categories: data ? data?.categories : [],
+      languageCode: data ? data?.languageCode : lang,
+      description: data ? data?.description : PostFormDefaultValues.description,
+      imageUrl: data ? data?.imageUrl : PostFormDefaultValues.image_url,
     },
   });
 
@@ -72,6 +86,34 @@ export const PostForm = ({ data, translations }: PostFormProps) => {
               </FormControl>
               <FormDescription>
                 Это заголовок вашего поста.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="languageCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Язык контента</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a language of the content" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(translations.languages).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Выберите язык контента для вашего поста.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -107,19 +149,13 @@ export const PostForm = ({ data, translations }: PostFormProps) => {
             <FormItem>
               <FormLabel>Описание</FormLabel>
               <FormControl>
-                <Controller
-                  name="description"
-                  control={form.control}
-                  render={({ field }) => (
-                    <ReactQuill
-                      theme="snow"
-                      value={field.value}
-                      onChange={field.onChange}
-                      modules={modules}
-                      formats={formats}
-                      style={{ height: '200px', marginBottom: '50px' }}
-                    />
-                  )}
+                <ReactQuill
+                  theme="snow"
+                  value={field.value}
+                  onChange={field.onChange}
+                  modules={modules}
+                  formats={formats}
+                  style={{ height: '200px', marginBottom: '50px' }}
                 />
               </FormControl>
               <FormDescription>
@@ -129,6 +165,7 @@ export const PostForm = ({ data, translations }: PostFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="imageUrl"
