@@ -14,5 +14,12 @@
       "forgiveness": "Прощение",
       "praise_thanksgiving": "Хвала и благодарение"
     }
+  },
+  "app_settings": {
+    "languages": {
+      "en": "Английский",
+      "ru": "Русский",
+      "uk": "Украинский"
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { Locale } from "@/i18n.config"
 export interface PostListType {
   data: PostType[]
   lang: string
@@ -18,6 +19,7 @@ export interface PostType {
   slug?: string
   content: string
   comments: Comment[]
+  languageCode: Locale
 };
 
 export interface Comment {

@@ -11,14 +11,22 @@ interface PostFormLayoutProps {
 
 const PostFormLayout = async ({ data, lang }: PostFormLayoutProps) => {
   const formProps: { data?: PostType; lang: Locale } = { lang };
-  const { post_form } = await getDictionary(lang);
+  const { post_form, app_settings: { languages } } = await getDictionary(lang);
+  const translations = {
+    post_form,
+    languages
+  };
 
   if (data !== null) {
     formProps.data = data;
   }
 
   return (
-    <PostForm data={data ? data : null} translations={post_form} />
+    <PostForm
+      data={data ? data : null}
+      lang={data ? data?.languageCode : lang}
+      translations={translations}
+    />
   );
 };
 

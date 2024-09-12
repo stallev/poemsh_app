@@ -36,7 +36,6 @@ model Post {
   title        String
   content      String
   categories   CategoryPost[]
-  tags         Tag[]
   authorId     String
   author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   image        String?
@@ -45,8 +44,7 @@ model Post {
   favoritedBy  User[]     @relation("UserFavoritePosts")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  languageCode String
-  language     Language   @relation(fields: [languageCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  languageCode String     @db.VarChar(10)
 }
 
 enum PostStatus {
@@ -66,8 +64,7 @@ model CategoryTranslation {
   name         String
   categorySlug String
   category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
-  languageCode String
-  language     Language @relation(fields: [languageCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  languageCode String   @db.VarChar(10)
 
   @@unique([categorySlug, languageCode])
 }
@@ -79,12 +76,6 @@ model CategoryPost {
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([categorySlug, postId])
-}
-
-model Tag {
-  id    String @id @default(cuid())
-  name  String
-  posts Post[]
 }
 
 model Review {
@@ -99,11 +90,4 @@ model Review {
   updatedAt DateTime   @updatedAt
 
   @@unique([postId, authorId])
-}
-
-model Language {
-  code                String               @id
-  name                String
-  posts               Post[]
-  categoryTranslations CategoryTranslation[]
 }

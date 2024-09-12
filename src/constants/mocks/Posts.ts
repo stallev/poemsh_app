@@ -22,7 +22,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'ai-in-everyday-life',
-    content: 'Содержание статьи об ИИ в повседневной жизни...'
+    content: 'Содержание статьи об ИИ в повседневной жизни...',
+    languageCode: 'uk'
   },
   {
     id: '2',
@@ -38,7 +39,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'top-10-travel-destinations-2024',
-    content: 'Содержание статьи о топ-10 направлениях для путешествий...'
+    content: 'Содержание статьи о топ-10 направлениях для путешествий...',
+    languageCode: 'en'
   },
   {
     id: '3',
@@ -61,7 +63,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'healthy-eating-myths-and-reality',
-    content: 'Содержание статьи о мифах и реальности здорового питания...'
+    content: 'Содержание статьи о мифах и реальности здорового питания...',
+    languageCode: 'ru'
   },
   {
     id: '4',
@@ -77,7 +80,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'cryptocurrencies-invest-or-not',
-    content: 'Содержание статьи о инвестициях в криптовалюты...'
+    content: 'Содержание статьи о инвестициях в криптовалюты...',
+    languageCode: 'ru'
   },
   {
     id: '5',
@@ -100,7 +104,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'how-to-start-business-2024',
-    content: 'Содержание статьи о запуске бизнеса в 2024 году...'
+    content: 'Содержание статьи о запуске бизнеса в 2024 году...',
+    languageCode: 'ru'
   },
   {
     id: '6',
@@ -116,7 +121,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'eco-friendly-lifestyle-where-to-start',
-    content: 'Содержание статьи об экологичном образе жизни...'
+    content: 'Содержание статьи об экологичном образе жизни...',
+    languageCode: 'ru'
   },
   {
     id: '7',
@@ -139,7 +145,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'best-books-2023-review',
-    content: 'Содержание обзора лучших книг 2023 года...'
+    content: 'Содержание обзора лучших книг 2023 года...',
+    languageCode: 'ru'
   },
   {
     id: '8',
@@ -155,7 +162,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'train-for-beginners-guide',
-    content: 'Содержание руководства по тренировке для начинающих...'
+    content: 'Содержание руководства по тренировке для начинающих...',
+    languageCode: 'ru'
   },
   {
     id: '9',
@@ -178,7 +186,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'future-of-work-trends-2024',
-    content: 'Содержание статьи о будущем работы и трендах 2024 года...'
+    content: 'Содержание статьи о будущем работы и трендах 2024 года...',
+    languageCode: 'ru'
   },
   {
     id: '10',
@@ -194,7 +203,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'solar-panel-technology-breakthrough',
-    content: 'Содержание статьи о прорыве в технологии солнечных батарей...'
+    content: 'Содержание статьи о прорыве в технологии солнечных батарей...',
+    languageCode: 'ru'
   },
   {
     id: '11',
@@ -217,7 +227,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'color-psychology-in-marketing',
-    content: 'Содержание статьи о психологии цвета в маркетинге...'
+    content: 'Содержание статьи о психологии цвета в маркетинге...',
+    languageCode: 'ru'
   },
   {
     id: '12',
@@ -233,7 +244,8 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'learn-new-language-in-3-months',
-    content: 'Содержание статьи о методике изучения языка...'
+    content: 'Содержание статьи о методике изучения языка...',
+    languageCode: 'ru'
   },
   {
     id: '13',
@@ -256,7 +268,8 @@ export const PostsListData: PostType[] = [
       }
     ],
     slug: 'future-of-medicine-personalized-gene-therapy',
-    content: 'Содержание статьи о персонализированной генной терапии...'
+    content: 'Содержание статьи о персонализированной генной терапии...',
+    languageCode: 'ru'
   },
   {
     id: '14',
@@ -272,6 +285,7 @@ export const PostsListData: PostType[] = [
     status: 'published',
     comments: [],
     slug: 'how-to-start-investing-in-art',
-    content: 'Содержание руководства по инвестированию в искусство...'
+    content: 'Содержание руководства по инвестированию в искусство...',
+    languageCode: 'en'
   }
 ];
