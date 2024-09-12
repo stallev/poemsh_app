@@ -1,7 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -37,7 +35,7 @@ model Post {
   id           String     @id @default(cuid())
   title        String
   content      String
-  categories   Category[] @relation("PostCategories")
+  categories   CategoryPost[]
   tags         Tag[]
   authorId     String
   author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -58,10 +56,29 @@ enum PostStatus {
 }
 
 model Category {
-  id    String @id @default(cuid())
-  slug  String @default(cuid())
-  name  String
-  posts Post[] @relation("PostCategories")
+  slug         String         @id @default(cuid())
+  translations CategoryTranslation[]
+  posts        CategoryPost[]
+}
+
+model CategoryTranslation {
+  id           String   @id @default(cuid())
+  name         String
+  categorySlug String
+  category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
+  languageCode String
+  language     Language @relation(fields: [languageCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([categorySlug, languageCode])
+}
+
+model CategoryPost {
+  categorySlug String
+  category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
+  postId       String
+  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([categorySlug, postId])
 }
 
 model Tag {
@@ -85,7 +102,8 @@ model Review {
 }
 
 model Language {
-  code  String @id
-  name  String
-  posts Post[]
+  code                String               @id
+  name                String
+  posts               Post[]
+  categoryTranslations CategoryTranslation[]
 }

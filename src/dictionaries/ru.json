@@ -4,7 +4,15 @@
       "title": "Главная"
     },
     "post": {
-      "edit_btn": "Редактировать"
+      "edit_btn": "Edit"
+    }
+  },
+  "post_form": {
+    "categories": {
+      "school": "Школа",
+      "harvest": "Жатва",
+      "forgiveness": "Прощение",
+      "praise_thanksgiving": "Хвала и благодарение"
     }
   }
 }
