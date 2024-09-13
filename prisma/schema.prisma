@@ -11,17 +11,19 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
-  password       String
-  name           String?  @db.VarChar(255)
-  role           Role     @default(SUBSCRIBER)
-  isApproved     Boolean  @default(false)
-  posts          Post[]
-  reviews        Review[]
-  favoritePosts  Post[]   @relation("UserFavoritePosts")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                String          @id @default(cuid())
+  email             String          @unique
+  password          String
+  name              String?         @db.VarChar(255)
+  role              Role            @default(SUBSCRIBER)
+  verified          Boolean         @default(true)
+  isApproved        Boolean         @default(false)
+  userSourceType    UserSourceType  @default(EMAIL)
+  posts             Post[]
+  reviews           Review[]
+  favoritePosts     Post[]          @relation("UserFavoritePosts")
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 }
 
 enum Role {
@@ -29,6 +31,11 @@ enum Role {
   AUTHOR
   EDITOR
   SUBSCRIBER
+}
+
+enum UserSourceType {
+  EMAIL
+  EXTERNALPROVIDER
 }
 
 model Post {
@@ -39,7 +46,7 @@ model Post {
   authorId     String
   author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   image        String?
-  status       PostStatus @default(DRAFT)
+  status       PostStatus @default(PUBLISHED)
   reviews      Review[]
   favoritedBy  User[]     @relation("UserFavoritePosts")
   createdAt    DateTime   @default(now())
