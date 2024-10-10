@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { modules, formats } from '@/constants/RichTextEditorSettings';
 import { PostFormDefaultValues } from './constants/FormValues';
 import { Locale } from '@/i18n.config';
-import { MultiSelect } from '../CustomSharedUI/MultiSelect/MultiSelect';
+// import { MultiSelect } from '../CustomSharedUI/MultiSelect/MultiSelect';
 import 'react-quill/dist/quill.snow.css';
 
 import { PostType } from '@/types/Post';
@@ -35,7 +35,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Заголовок обязателен" }).max(100, { message: "Заголовок не должен превышать 100 символов" }),
-  categories: z.array(z.string()).nonempty({ message: "Должна быть выбрана хотя бы одна категория" }),
+  // categories: z.array(z.string()).nonempty({ message: "Должна быть выбрана хотя бы одна категория" }),
   languageCode: z.string().max(2, { message: "Выберите язык контента" }),
   description: z.string().max(10000, { message: "Описание не должно превышать 10000 символов" }).optional(),
   imageUrl: z.string().url({ message: "Введите корректный URL изображения" }).optional(),
@@ -56,12 +56,13 @@ export const PostForm = ({ data, lang, translations }: PostFormProps) => {
     label: value as string,
     value: key
   }));
+  console.log(translations)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: data ? data?.title : PostFormDefaultValues.title,
-      categories: data ? data?.categories : [],
+      // categories: data ? data?.categories : [],
       languageCode: data ? data?.languageCode : lang,
       description: data ? data?.description : PostFormDefaultValues.description,
       imageUrl: data ? data?.imageUrl : PostFormDefaultValues.image_url,
@@ -120,7 +121,7 @@ export const PostForm = ({ data, lang, translations }: PostFormProps) => {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="categories"
           render={({ field }) => (
@@ -140,7 +141,7 @@ export const PostForm = ({ data, lang, translations }: PostFormProps) => {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}

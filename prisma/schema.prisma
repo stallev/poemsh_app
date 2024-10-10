@@ -10,48 +10,55 @@ datasource db {
   url      = env("NEXT_PUBLIC_DATABASE_URL")
 }
 
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
 model User {
-  id                String          @id @default(cuid())
-  email             String          @unique
-  password          String
-  name              String?         @db.VarChar(255)
-  role              Role            @default(SUBSCRIBER)
-  verified          Boolean         @default(true)
-  isApproved        Boolean         @default(false)
-  userSourceType    UserSourceType  @default(EMAIL)
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime? @map("email_verified")
+  passwordHash      String
+  image             String?
+  accounts          Account[]
   posts             Post[]
   reviews           Review[]
-  favoritePosts     Post[]          @relation("UserFavoritePosts")
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
-}
 
-enum Role {
-  ADMINISTRATOR
-  AUTHOR
-  EDITOR
-  SUBSCRIBER
-}
-
-enum UserSourceType {
-  EMAIL
-  EXTERNALPROVIDER
+  @@map("users")
 }
 
 model Post {
-  id           String     @id @default(cuid())
-  title        String
-  content      String
-  categories   CategoryPost[]
-  authorId     String
-  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  image        String?
-  status       PostStatus @default(PUBLISHED)
-  reviews      Review[]
-  favoritedBy  User[]     @relation("UserFavoritePosts")
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  languageCode String     @db.VarChar(10)
+  id                String     @id @default(cuid())
+  title             String
+  content           String
+  // categories   CategoryPost[]
+  authorId          String
+  author            User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  image             String?
+  status            PostStatus @default(PUBLISHED)
+  reviews           Review[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  languageCode      String     @db.VarChar(10)
 }
 
 enum PostStatus {
@@ -60,30 +67,30 @@ enum PostStatus {
   PUBLISHED
 }
 
-model Category {
-  slug         String         @id @default(cuid())
-  translations CategoryTranslation[]
-  posts        CategoryPost[]
-}
+// model Category {
+//   slug         String         @id @default(cuid())
+//   translations CategoryTranslation[]
+//   posts        CategoryPost[]
+// }
 
-model CategoryTranslation {
-  id           String   @id @default(cuid())
-  name         String
-  categorySlug String
-  category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
-  languageCode String   @db.VarChar(10)
+// model CategoryTranslation {
+//   id           String   @id @default(cuid())
+//   name         String
+//   categorySlug String
+//   category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
+//   languageCode String   @db.VarChar(10)
 
-  @@unique([categorySlug, languageCode])
-}
+//   @@unique([categorySlug, languageCode])
+// }
 
-model CategoryPost {
-  categorySlug String
-  category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
-  postId       String
-  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+// model CategoryPost {
+//   categorySlug String
+//   category     Category @relation(fields: [categorySlug], references: [slug], onDelete: Cascade, onUpdate: Cascade)
+//   postId       String
+//   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@id([categorySlug, postId])
-}
+//   @@id([categorySlug, postId])
+// }
 
 model Review {
   id        String     @id @default(cuid())
