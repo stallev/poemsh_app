@@ -1,8 +1,8 @@
 'use client'
-'use client'
-import React from 'react'
-import Link from 'next/link'
-import { ChevronRight } from "lucide-react"
+
+import React from 'react';
+import Link from 'next/link';
+import { ChevronRight } from "lucide-react";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"

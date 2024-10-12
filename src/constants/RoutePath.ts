@@ -4,5 +4,7 @@ export const RoutePath = {
   Poems: '/posts/poems',
   EditPoem: '/posts/update-post',
   AboutUs: '/about-us',
+  Login: '/login',
+  SignUp: '/register',
   NotFoundPage: '/404',
 };
