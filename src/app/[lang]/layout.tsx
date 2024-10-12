@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google"
+import { Inter as FontSans } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 import { Locale, i18n } from "@/i18n.config";
 import "./globals.css";
 import { cn } from "@/lib/utils"
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
   return i18n.locales.map(locale => ({ lang: locale }))
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: Readonly<{
@@ -34,12 +35,14 @@ export default function RootLayout({
         fontSans.variable
       )}>
         <Header lang={params.lang} />
-        
+
         <main>
           <Container>
             {children}
           </Container>
         </main>
+
+        <Toaster />
       </body>
     </html>
   );

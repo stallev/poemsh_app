@@ -1,6 +1,6 @@
 import { prismaClient } from "@/lib/prismaClient";
 import { PostsListData } from "@/constants/mocks/Posts";
-import { Post, Prisma } from "@prisma/client";
+// import { Post, Prisma } from "@prisma/client";
 
 class PostApiService {
   static getSinglePost(slug: string) {
@@ -23,88 +23,88 @@ class PostApiService {
     return posts
   }
 
-  static async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-    try {
-      const newPost = await prismaClient.post.create({
-        data: {
-          title: data.title,
-          content: data.content,
-          author: {
-            connect: { id: data.author.connect?.id }
-          },
-          image: data.image,
-          status: data.status || 'PUBLISHED',
-          languageCode: data.languageCode,
-          categories: {
-            create: Array.isArray(data.categories)
-              ? data.categories.map(categorySlug => ({
-                category: {
-                  connect: { slug: categorySlug }
-                }
-              }))
-              : [{
-                category: {
-                  connect: { slug: 'other' }
-                }
-              }]
-          }
-        },
-        include: {
-          author: true,
-          categories: {
-            include: {
-              category: true
-            }
-          }
-        }
-      });
-      return newPost;
-    } catch (error) {
-      console.error('Error creating post:', error);
-      throw error;
-    }
-  }
+  // static async createPost(data: Prisma.PostCreateInput): Promise<Post> {
+  //   try {
+  //     const newPost = await prismaClient.post.create({
+  //       data: {
+  //         title: data.title,
+  //         content: data.content,
+  //         author: {
+  //           connect: { id: data.author.connect?.id }
+  //         },
+  //         image: data.image,
+  //         status: data.status || 'PUBLISHED',
+  //         languageCode: data.languageCode,
+  //         categories: {
+  //           create: Array.isArray(data.categories)
+  //             ? data.categories.map(categorySlug => ({
+  //               category: {
+  //                 connect: { slug: categorySlug }
+  //               }
+  //             }))
+  //             : [{
+  //               category: {
+  //                 connect: { slug: 'other' }
+  //               }
+  //             }]
+  //         }
+  //       },
+  //       include: {
+  //         author: true,
+  //         categories: {
+  //           include: {
+  //             category: true
+  //           }
+  //         }
+  //       }
+  //     });
+  //     return newPost;
+  //   } catch (error) {
+  //     console.error('Error creating post:', error);
+  //     throw error;
+  //   }
+  // }
 
-  static async updatePost(id: string, data: Prisma.PostUpdateInput): Promise<Post> {
-    try {
-      const updatedPost = await prismaClient.post.update({
-        where: { id },
-        data: {
-          title: data.title,
-          content: data.content,
-          image: data.image,
-          status: data.status,
-          languageCode: data.languageCode,
-          categories: {
-            deleteMany: {},
-            create: Array.isArray(data.categories) && data.categories.length > 0
-              ? data.categories.map((categorySlug: string) => ({
-                category: {
-                  connect: { slug: categorySlug }
-                }
-              }))
-              : [{
-                category: {
-                  connect: { slug: 'other' }
-                }
-              }]
-          }
-        },
-        include: {
-          author: true,
-          categories: {
-            include: {
-              category: true
-            }
-          }
-        }
-      });
-      return updatedPost;
-    } catch (error) {
-      console.error('Error updating post:', error);
-      throw error;
-    }
-  }
+  // static async updatePost(id: string, data: Prisma.PostUpdateInput): Promise<Post> {
+  //   try {
+  //     const updatedPost = await prismaClient.post.update({
+  //       where: { id },
+  //       data: {
+  //         title: data.title,
+  //         content: data.content,
+  //         image: data.image,
+  //         status: data.status,
+  //         languageCode: data.languageCode,
+  //         categories: {
+  //           deleteMany: {},
+  //           create: Array.isArray(data.categories) && data.categories.length > 0
+  //             ? data.categories.map((categorySlug: string) => ({
+  //               category: {
+  //                 connect: { slug: categorySlug }
+  //               }
+  //             }))
+  //             : [{
+  //               category: {
+  //                 connect: { slug: 'other' }
+  //               }
+  //             }]
+  //         }
+  //       },
+  //       include: {
+  //         author: true,
+  //         categories: {
+  //           include: {
+  //             category: true
+  //           }
+  //         }
+  //       }
+  //     });
+  //     return updatedPost;
+  //   } catch (error) {
+  //     console.error('Error updating post:', error);
+  //     throw error;
+  //   }
+  // }
 }
 
 export default PostApiService;
