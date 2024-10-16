@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { auth } from '@/auth'
 import { i18n } from '@/i18n.config'
 import { PublicRoutes, AuthRoutes, RoutePath } from './constants/RoutePath'
 
 import { match as matchLocale } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
+
+interface RouteConfig {
+  pathnameWithoutLocale: string;
+  locale: string;
+  isLoggedIn: boolean;
+}
 
 // @ts-ignore locales are readonly
 const locales: string[] = i18n.locales;
@@ -22,44 +27,64 @@ function getLocale(request: NextRequest): string | undefined {
 }
 
 export function middleware(request: NextRequest) {
-  console.log('request', request)
   const { pathname } = request.nextUrl;
+  
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
+  );
+  
+  if (!pathnameHasLocale) {
+    return redirectWithLocale(request, pathname);
+  }
+  
+  const routeConfig = getRouteConfig(request, pathname);
+  
+  return handleAuthorization(request, routeConfig);
+}
 
-  if(pathnameHasLocale) return;
-
+function redirectWithLocale(request: NextRequest, pathname: string): NextResponse {
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
-
   return NextResponse.redirect(request.nextUrl);
-};
+}
 
-// const authMiddleware = auth((req: NextRequest) => {
-//   const { nextUrl } = req;
-//   const isLoggedIn = !!req.auth;
-//   const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
-//   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-//   if (isPublicRoute) {
-//     return NextResponse.next();
-//   }
-//   if (isAuthRoute) {
-//     if (isLoggedIn) {
-//       return NextResponse.redirect(new URL(RoutePath.Profile, nextUrl));
-//     }
-//     return NextResponse.next();
-//   }
-//   if (!isPublicRoute && !isLoggedIn) {
-//     return NextResponse.redirect(new URL(RoutePath.Login, nextUrl));
-//   }
-//   return NextResponse.next();
-// });
+function getRouteConfig(request: NextRequest, pathname: string): RouteConfig {
+  const locale = pathname.split('/')[1];
+  const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+  const isLoggedIn = !!request.cookies.get('authjs.session-token')?.value;
+  
+  return {
+    pathnameWithoutLocale,
+    locale,
+    isLoggedIn
+  };
+}
+
+function handleAuthorization(
+  request: NextRequest, 
+  { pathnameWithoutLocale, locale, isLoggedIn }: RouteConfig
+): NextResponse {
+  if (PublicRoutes.includes(pathnameWithoutLocale)) {
+    return NextResponse.next();
+  }
+  
+  if (AuthRoutes.includes(pathnameWithoutLocale)) {
+    return isLoggedIn 
+      ? NextResponse.redirect(new URL(`/${locale}/`, request.url))
+      : NextResponse.next();
+  }
+  
+  if (!isLoggedIn) {
+    return NextResponse.redirect(new URL(`/${locale}${RoutePath.Login}`, request.url));
+  }
+  
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
     // Optional: only run on root (/) URL
     // '/'
   ],
