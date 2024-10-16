@@ -7,16 +7,17 @@ import { RegistrationFormValues } from '@/components/page-specific/register/sche
 import { ActionResult } from '@/types';
 import { User } from '@prisma/client';
 import { RequestErrors, RequestStatuses } from '@/constants/RequestStatusesErrors';
+import { PasswordParams, UsernameParams } from '@/constants/UserConstants';
 
 const registerSchema = z.object({
   name: z.string()
-    .min(1)
-    .max(100),
+    .min(UsernameParams.MinLength)
+    .max(UsernameParams.MaxLength),
   email: z.string().email(),
   password: z.string()
-    .min(8)
-    .max(100)
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
+    .min(PasswordParams.MinLength)
+    .max(PasswordParams.MaxLength)
+    // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
 });
 
 export async function registerUserAction(data: RegistrationFormValues): Promise<ActionResult<User>> {

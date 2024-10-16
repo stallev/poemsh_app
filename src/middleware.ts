@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
+import { auth } from '@/auth'
 import { i18n } from '@/i18n.config'
+import { PublicRoutes, AuthRoutes, RoutePath } from './constants/RoutePath'
 
 import { match as matchLocale } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
@@ -21,6 +22,7 @@ function getLocale(request: NextRequest): string | undefined {
 }
 
 export function middleware(request: NextRequest) {
+  console.log('request', request)
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -33,6 +35,26 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.redirect(request.nextUrl);
 };
+
+// const authMiddleware = auth((req: NextRequest) => {
+//   const { nextUrl } = req;
+//   const isLoggedIn = !!req.auth;
+//   const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
+//   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
+//   if (isPublicRoute) {
+//     return NextResponse.next();
+//   }
+//   if (isAuthRoute) {
+//     if (isLoggedIn) {
+//       return NextResponse.redirect(new URL(RoutePath.Profile, nextUrl));
+//     }
+//     return NextResponse.next();
+//   }
+//   if (!isPublicRoute && !isLoggedIn) {
+//     return NextResponse.redirect(new URL(RoutePath.Login, nextUrl));
+//   }
+//   return NextResponse.next();
+// });
 
 export const config = {
   matcher: [

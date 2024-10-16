@@ -19,6 +19,7 @@ import { LoginFormProps } from './types';
 import { createLoginClientSchema, LoginClientFormValues } from '../../schemas/loginFormClientSchema';
 import { loginUserAction } from '@/app/actions/userActions/loginAction';
 import { RequestErrors, RequestStatuses } from '@/constants/RequestStatusesErrors';
+import { RoutePath } from '@/constants/RoutePath';
 
 export const LoginForm: React.FC<LoginFormProps> = ({ translations }) => {
   const router = useRouter();
@@ -44,7 +45,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ translations }) => {
       const results = await loginUserAction(values);
 
       if (results.status === RequestStatuses.success) {
-        router.push('/');
+        router.push(RoutePath.Profile);
       } else if ('error' in results) {
         switch (results.error) {
           case RequestErrors.invalid_credentials:

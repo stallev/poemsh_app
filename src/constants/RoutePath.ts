@@ -7,4 +7,17 @@ export const RoutePath = {
   Login: '/login',
   SignUp: '/register',
   NotFoundPage: '/404',
+  Profile: '/profile',
 };
+
+export const PublicRoutes = [
+  RoutePath.Home,
+  RoutePath.Authors,
+  RoutePath.AboutUs,
+  RoutePath.NotFoundPage,
+]
+
+export const AuthRoutes = [
+  RoutePath.Login,
+  RoutePath.SignUp,
+]

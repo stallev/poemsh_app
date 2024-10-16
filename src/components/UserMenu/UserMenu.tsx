@@ -39,7 +39,7 @@ export const UserMenu = ({
           </Avatar>
         </PopoverTrigger>
 
-        <PopoverContent>
+        <PopoverContent align='end'>
           <div className="flex flex-col items-start">
             <p>{session.user?.name}</p>
             <p>{session.user?.email}</p>
