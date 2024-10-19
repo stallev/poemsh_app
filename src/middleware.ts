@@ -28,7 +28,15 @@ function getLocale(request: NextRequest): string | undefined {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  localize(request, pathname);
   
+  const routeConfig = getRouteConfig(request, pathname);
+  
+  return handleAuthorization(request, routeConfig);
+}
+
+function localize (request: NextRequest, pathname: string) {
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
@@ -36,10 +44,6 @@ export function middleware(request: NextRequest) {
   if (!pathnameHasLocale) {
     return redirectWithLocale(request, pathname);
   }
-  
-  const routeConfig = getRouteConfig(request, pathname);
-  
-  return handleAuthorization(request, routeConfig);
 }
 
 function redirectWithLocale(request: NextRequest, pathname: string): NextResponse {
