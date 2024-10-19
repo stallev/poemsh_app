@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +17,13 @@ import { Input } from "@/components/ui/input";
 import { RegistrationFormProps } from './types';
 import { createRegistrationSchema, RegistrationFormValues } from '../../schemas/registerFormSchema';
 import { registerUserAction } from '@/app/actions/userActions/registerAction';
+import { RequestStatuses } from '@/constants/RequestStatusesErrors';
+import { RoutePath } from '@/constants/RoutePath';
 
 
 export const RegistrationForm: React.FC<RegistrationFormProps> = ({ translations }) => {
+  const router = useRouter();
+
   const formSchema = createRegistrationSchema(translations);
 
   const form = useForm<RegistrationFormValues>({
@@ -33,7 +38,11 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ translations
   const onSubmit = async (values: RegistrationFormValues) => {
     try {
       const results = await registerUserAction(values);
-      console.log('results is', results);
+      
+      if (results.status === RequestStatuses.success) {
+        router.push(RoutePath.Profile);
+        router.refresh();
+      }
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
       // Здесь можно добавить обработку ошибок, например, показать уведомление пользователю

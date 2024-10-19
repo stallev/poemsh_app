@@ -50,15 +50,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ translations }) => {
         switch (results.error) {
           case RequestErrors.invalid_credentials:
             setInvalidCredentialsError(true);
-            toast({
-              description: RequestErrors.invalid_credentials,
-            });
             break;
           case RequestErrors.something_wents_wrong:
-            setGlobalError('Something went wrong');
-            toast({
-              description: translations.errors.something_went_wrong,
-            });
+            setGlobalError(translations.errors.something_went_wrong);
             break;
           default:
             break;

@@ -8,4 +8,5 @@ export const RequestErrors = {
   something_wents_wrong: 'something_wents_wrong',
   validation_login_error: 'validation_login_error',
   user_already_exists: 'user_already_exists',
+  auto_login_failed: 'auto_login_failed',
 }

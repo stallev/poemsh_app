@@ -10,7 +10,7 @@ export default async function Home({
   params: { lang: Locale }
 }) {
   const session = await auth();
-  console.log(session);
+  
   const { pages: { home } } = await getDictionary(lang);
   return (
     <>
