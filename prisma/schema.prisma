@@ -11,54 +11,71 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map("accounts")
 }
 
 model User {
-  id                String    @id @default(cuid())
-  name              String?
-  email             String?   @unique
-  emailVerified     DateTime? @map("email_verified")
-  passwordHash      String
-  image             String?
-  accounts          Account[]
-  posts             Post[]
-  reviews           Review[]
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  passwordHash  String
+  accounts      Account[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  author        Author?
 
   @@map("users")
 }
 
+model Author {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  name        String    @db.VarChar(255)
+  dateOfBirth DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  description String?   @db.Text
+  posts       Post[]
+  reviews     Review[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId])
+  @@map("authors")
+}
+
 model Post {
-  id                String     @id @default(cuid())
-  title             String
-  content           String
-  // categories   CategoryPost[]
-  authorId          String
-  author            User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  image             String?
-  status            PostStatus @default(PUBLISHED)
-  reviews           Review[]
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
-  languageCode      String     @db.VarChar(10)
+  id           String     @id @default(cuid())
+  title        String     @db.VarChar(255)
+  content      String     @db.Text
+  authorId     String
+  image        String?    @db.VarChar(1024)
+  status       PostStatus @default(PUBLISHED)
+  reviews      Review[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  languageCode String     @db.VarChar(10)
+  author       Author     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([authorId])
+  @@map("posts")
 }
 
 enum PostStatus {
@@ -94,14 +111,17 @@ enum PostStatus {
 
 model Review {
   id        String     @id @default(cuid())
-  content   String
-  postId    String
+  content   String     @db.Text
+  postId    String     @db.VarChar(255)
   post      Post       @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId  String
-  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId  String     @db.VarChar(255)
   status    PostStatus @default(PUBLISHED)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  Author    Author     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([postId, authorId])
+  @@index([postId])
+  @@index([authorId])
+  @@map("reviews")
 }
