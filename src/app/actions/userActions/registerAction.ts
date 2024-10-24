@@ -41,9 +41,16 @@ export async function registerUserAction(data: RegistrationFormValues): Promise<
 
     const newUser = await prismaClient.user.create({
       data: {
-        name,
         email,
         passwordHash: hashedPassword,
+        author: {
+          create: {
+            name,
+          }
+        }
+      },
+      include: {
+        author: true
       }
     });
 
