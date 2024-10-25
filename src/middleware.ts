@@ -6,12 +6,6 @@ import { PublicRoutes, AuthRoutes, RoutePath } from './constants/RoutePath'
 import { match as matchLocale } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 
-interface RouteConfig {
-  pathnameWithoutLocale: string;
-  locale: string;
-  isLoggedIn: boolean;
-}
-
 // @ts-ignore locales are readonly
 const locales: string[] = i18n.locales;
 
@@ -29,45 +23,24 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  localize(request, pathname);
-  
-  const routeConfig = getRouteConfig(request, pathname);
-  
-  return handleAuthorization(request, routeConfig);
-}
-
-function localize (request: NextRequest, pathname: string) {
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-  
-  if (!pathnameHasLocale) {
-    return redirectWithLocale(request, pathname);
-  }
-}
+  )
 
-function redirectWithLocale(request: NextRequest, pathname: string): NextResponse {
+  if(pathnameHasLocale) return handleAuthorization(request);
+
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
+
   return NextResponse.redirect(request.nextUrl);
 }
 
-function getRouteConfig(request: NextRequest, pathname: string): RouteConfig {
+function handleAuthorization(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
   const locale = pathname.split('/')[1];
   const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
   const isLoggedIn = !!request.cookies.get('authjs.session-token')?.value;
-  
-  return {
-    pathnameWithoutLocale,
-    locale,
-    isLoggedIn
-  };
-}
 
-function handleAuthorization(
-  request: NextRequest, 
-  { pathnameWithoutLocale, locale, isLoggedIn }: RouteConfig
-): NextResponse {
   if (PublicRoutes.includes(pathnameWithoutLocale)) {
     return NextResponse.next();
   }
