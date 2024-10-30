@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { i18n } from '@/i18n.config'
-import { PublicRoutes, AuthRoutes, RoutePath } from './constants/RoutePath'
+import { PublicRoutes, AuthRoutes, RoutePath, PrivateRoutes } from './constants/RoutePath'
 
 import { match as matchLocale } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
@@ -51,7 +51,7 @@ function handleAuthorization(request: NextRequest): NextResponse {
       : NextResponse.next();
   }
   
-  if (!isLoggedIn) {
+  if (!isLoggedIn && PrivateRoutes.includes(pathnameWithoutLocale)) {
     return NextResponse.redirect(new URL(`/${locale}${RoutePath.Login}`, request.url));
   }
   

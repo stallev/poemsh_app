@@ -6,3 +6,12 @@ export const PostFormDefaultValues = {
   [PostFormFields.Description]: '',
   [PostFormFields.ImageURL]: '',
 }
+
+export const PostTitleParams = {
+  MinLength: 2,
+  MaxLength: 150,
+}
+
+export const PostContentParams = {
+  MinLength: 6,
+}

@@ -14,6 +14,13 @@
       "forgiveness": "Forgiveness",
       "praise_thanksgiving": "Praise and Thanksgiving",
       "other": "Other"
+    },
+    "errors": {
+      "title_required_message": "Title is required",
+      "title_max_length_message": "Title must be less than 150 characters",
+      "choosing_lang_message": "Select the language of the poem",
+      "content_min_length_message": "Content must be at least 10 characters long",
+      "image_url_message": "Add correct image url"
     }
   },
   "registration_form": {

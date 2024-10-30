@@ -2,7 +2,8 @@ export const RoutePath = {
   Home: '/',
   Authors: '/authors',
   Poems: '/posts/poems',
-  EditPoem: '/posts/update-post',
+  CreatePost: '/posts/new-post',
+  UpdatePost: '/posts/update-post',
   AboutUs: '/about-us',
   Login: '/login',
   SignUp: '/register',
@@ -15,6 +16,12 @@ export const PublicRoutes = [
   RoutePath.Authors,
   RoutePath.AboutUs,
   RoutePath.NotFoundPage,
+]
+
+export const PrivateRoutes = [
+  RoutePath.Profile,
+  RoutePath.CreatePost,
+  RoutePath.UpdatePost,
 ]
 
 export const AuthRoutes = [

@@ -1,6 +1,6 @@
-export const RequestStatuses = {
-  success: 'success',
-  error: 'error'
+export enum RequestStatuses {
+  success ='success',
+  error = 'error'
 }
 
 export const RequestErrors = {
