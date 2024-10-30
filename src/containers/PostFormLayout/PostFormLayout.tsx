@@ -1,4 +1,5 @@
 import React from 'react';
+import { auth } from '@/auth'
 import { PostForm } from '@/components/PostForm/PostForm';
 import { getDictionary } from '@/lib/getDictionary';
 import { PostType } from '@/types/Post';
@@ -10,6 +11,9 @@ interface PostFormLayoutProps {
 }
 
 const PostFormLayout = async ({ data, lang }: PostFormLayoutProps) => {
+  const session = await auth();
+  if (!session) return null;
+
   const formProps: { data?: PostType; lang: Locale } = { lang };
   const { post_form, app_settings: { languages } } = await getDictionary(lang);
   const translations = {
@@ -26,6 +30,7 @@ const PostFormLayout = async ({ data, lang }: PostFormLayoutProps) => {
       data={data ? data : null}
       lang={data ? data?.languageCode : lang}
       translations={translations}
+      author={session?.user?.data?.author?.id}
     />
   );
 };

@@ -14,6 +14,13 @@
       "forgiveness": "Прощение",
       "praise_thanksgiving": "Хвала и благодарение",
       "other": "Разное"
+    },
+    "errors": {
+      "title_required_message": "Заголовок обязателен",
+      "title_max_length_message": "Заголовок должен быть короче 150 символов",
+      "choosing_lang_message": "Выберите язык стихотворения",
+      "content_min_length_message": "Содержимое должно быть не короче 10 символов",
+      "image_url_message": "Добавьте правильный URL-адрес изображения"
     }
   },
   "registration_form": {

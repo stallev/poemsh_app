@@ -14,6 +14,13 @@
       "forgiveness": "Прощення",
       "praise_thanksgiving": "Хвала i подяка",
       "other": "Різне"
+    },
+    "errors": {
+      "title_required_message": "Потрібен заголовок",
+      "title_max_length_message": "Заголовок має бути менше 150 символів",
+      "choosing_lang_message": "Виберіть мову вірша",
+      "content_min_length_message": "Вміст повинен мати принаймні 10 символів",
+      "image_url_message": "Додайте правильну URL-адресу зображення"
     }
   },
   "registration_form": {

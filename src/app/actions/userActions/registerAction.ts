@@ -37,7 +37,7 @@ export async function registerUserAction(data: RegistrationFormValues): Promise<
       where: { email }
     });
 
-    if (existingUser) return { status: RequestStatuses.success, error: RequestErrors.user_already_exists };
+    if (existingUser) return { status: RequestStatuses.error, error: RequestErrors.user_already_exists };
 
     const newUser = await prismaClient.user.create({
       data: {

@@ -11,7 +11,7 @@ const PostControlButtons:React.FC<PostControlButtonProps> = async ({
   return (
     <div className='flex gap-6 mb-6 p-3 shadow-lg rounded-2xl'>
       <Link
-        href={`${RoutePath.EditPoem}/${postId}`}
+        href={`${RoutePath.UpdatePost}/${postId}`}
         className='bg-gray-900 text-white p-3 rounded-md'
       >
         {post.edit_btn}

@@ -8,9 +8,20 @@ export const {
   signIn, signOut, auth
 } = NextAuth({
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        const userData = await prismaClient.user.findUnique({
+          where: { id: user.id },
+          include: { author: true }
+        });
+        token.userData = userData;
+      }
+      return token;
+    },
+  
     async session({ token, session }) {
       if (token?.sub && session.user) {
-        session.user.id = token.sub
+        session.user.data = token.userData;
       }
       return session;
     }

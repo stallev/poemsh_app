@@ -2,9 +2,10 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,8 +25,13 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { modules, formats } from '@/constants/RichTextEditorSettings';
+import { RoutePath } from '@/constants/RoutePath';
 import { PostFormDefaultValues } from './constants/FormValues';
 import { Locale } from '@/i18n.config';
+import { PostFormErrorsTypes } from './types';
+import { createPostAction } from '@/app/actions/contentActions/postActions';
+import { createClientPostFormSchema, ClientPostFormValues } from './schemas/postFormSchema';
+import { isErrorResult, isSuccessResult } from '@/lib/typingGuardRequestResult';
 // import { MultiSelect } from '../CustomSharedUI/MultiSelect/MultiSelect';
 import 'react-quill/dist/quill.snow.css';
 
@@ -33,44 +39,58 @@ import { PostType } from '@/types/Post';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: "Заголовок обязателен" }).max(100, { message: "Заголовок не должен превышать 100 символов" }),
-  // categories: z.array(z.string()).nonempty({ message: "Должна быть выбрана хотя бы одна категория" }),
-  languageCode: z.string().max(2, { message: "Выберите язык контента" }),
-  description: z.string().max(10000, { message: "Описание не должно превышать 10000 символов" }).optional(),
-  imageUrl: z.string().url({ message: "Введите корректный URL изображения" }).optional(),
-});
 interface PostFormProps {
   data: PostType | null
   lang: Locale
+  author: string | undefined
   translations: {
     post_form: {
-      categories: Record<string, string>
+      categories: Record<string, string>,
+      errors: PostFormErrorsTypes
     }
     languages: Record<Locale, string>
   }
 }
 
-export const PostForm = ({ data, lang, translations }: PostFormProps) => {
+export const PostForm = ({ data, lang, translations, author }: PostFormProps) => {
+  const router = useRouter();
+  // const session = useSession();
+  // console.log('session', session);
+
+  const clientFormSchema = createClientPostFormSchema(translations.post_form.errors);
+
   const categoryOptions = Object.entries(translations.post_form.categories).map(([key, value]) => ({
     label: value as string,
     value: key
   }));
-  console.log(translations)
+  // console.log(translations)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ClientPostFormValues>({
+    resolver: zodResolver(clientFormSchema),
     defaultValues: {
       title: data ? data?.title : PostFormDefaultValues.title,
       // categories: data ? data?.categories : [],
       languageCode: data ? data?.languageCode : lang,
-      description: data ? data?.description : PostFormDefaultValues.description,
+      content: data ? data?.description : PostFormDefaultValues.description,
       imageUrl: data ? data?.imageUrl : PostFormDefaultValues.image_url,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: ClientPostFormValues) => {
+    if(!author) return null;
+
+    try {
+      const results = await createPostAction(values, author);
+  
+      if (isSuccessResult(results)) {
+        router.push(`${RoutePath.Poems}/${results.data.id}`)
+      } else if(isErrorResult(results)) {
+        console.log('Error creating post:', results.error);
+      }
+    } catch (error) {
+      // Обработка неожиданных ошибок
+      console.error('Unexpected error:', error);
+    }
   }
 
   return (
@@ -145,7 +165,7 @@ export const PostForm = ({ data, lang, translations }: PostFormProps) => {
 
         <FormField
           control={form.control}
-          name="description"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Описание</FormLabel>

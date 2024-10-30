@@ -16,7 +16,7 @@ const Profile = async ({ params: { lang } }: Params) => {
 
       {session ? (
         <div>
-          <pre>{JSON.stringify(session, null, 2)}</pre>
+          <pre>{JSON.stringify(session.user, null, 2)}</pre>
         </div>
       ): 
       (<p>No session data</p>)}
