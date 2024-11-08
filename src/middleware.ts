@@ -39,7 +39,7 @@ function handleAuthorization(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
   const locale = pathname.split('/')[1];
   const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
-  const isLoggedIn = !!request.cookies.get('authjs.session-token')?.value;
+  const isLoggedIn = !!request.cookies.get('authjs.session-token')?.value || !!request.cookies.get('__Secure-authjs.session-token')?.value;
 
   if (PublicRoutes.includes(pathnameWithoutLocale)) {
     return NextResponse.next();
