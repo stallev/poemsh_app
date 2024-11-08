@@ -36,7 +36,6 @@ export function middleware(request: NextRequest) {
 }
 
 function handleAuthorization(request: NextRequest): NextResponse {
-  console.log(request)
   const { pathname } = request.nextUrl;
   const locale = pathname.split('/')[1];
   const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
